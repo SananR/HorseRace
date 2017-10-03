@@ -20,6 +20,7 @@ public class GameThread extends BukkitRunnable {
 		
 		else if (game.getCurrentGameState() == GameState.TELEPORT_COUNTDOWN) {
 			int currentTimer = game.getTimer();
+			
 			if (currentTimer > 0) {
 				game.setCurrentTimer(currentTimer-1);
 				Bukkit.getServer().broadcastMessage(Message.TELEPORT_TIMER.getConfigMessage().replaceAll("%timer%", Integer.toString(currentTimer)));
@@ -28,6 +29,24 @@ public class GameThread extends BukkitRunnable {
 				game.startWaitCountdown();
 				return;
 			}
+		}
+		
+		else if (game.getCurrentGameState() == GameState.RACESTART_COUNTDOWN) {
+			int currentTimer = game.getTimer();
+			
+			if (currentTimer > 0) {
+				game.setCurrentTimer(currentTimer-1);
+				Bukkit.getServer().broadcastMessage(Message.WAITING_TIMER.getConfigMessage().replaceAll("%timer%", Integer.toString(currentTimer)));
+				return;
+			} else {
+				game.startRace();
+				Bukkit.getServer().broadcastMessage(Message.RACE_START.getConfigMessage());
+				return;
+			}
+		}
+		
+		else if (game.getCurrentGameState() == GameState.RACING) {
+			Bukkit.getServer().broadcastMessage("You are in a race");
 		}
 		
 	}

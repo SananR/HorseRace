@@ -5,7 +5,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public enum Message {
 
+	RACE_START("race-start"),
 	TELEPORT_TIMER("teleport-timer-message"),
+	WAITING_TIMER("waiting-timer-message"),
 	NO_PERMISSION ("invalid-permissions"),
 	ALREADY_STARTED ("already-started"),
 	GAME_START ("game-start"),

@@ -1,4 +1,6 @@
 teleport-timer-message: "&eTeleporting to the horse race in &b%timer% &eseconds"
+waiting-timer-message: "&eThe race will start in &b%timer% &eseconds... First player to complete &b3 &elaps wins!"
+race-start: "&eOn your mark... get set... &bGOOOOOOOO!"
 invalid-permissions: "&cYou do not have permission to execute this command!"
 already-started: "&cThe horse race has already started!"
 game-start: "&eStarted countdown to teleport to the horse race!"
