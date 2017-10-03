@@ -1,3 +1,6 @@
+teleport-timer-message: "&eTeleporting to the horse race in &b%timer% &eseconds"
 invalid-permissions: "&cYou do not have permission to execute this command!"
 already-started: "&cThe horse race has already started!"
-game-start: "&eThe horse race will start in &b10 &eseconds!"
+game-start: "&eStarted countdown to teleport to the horse race!"
+invalid-track-location: "&cYou must first set the tracks location using &e/settrack"
+set-track-location: "&eThe track's spawn location has been set to &byour current location&e!"

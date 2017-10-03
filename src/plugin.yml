@@ -6,3 +6,6 @@ commands:
      startrace:
          usage: /<command>
          description: Start the horse race! Yee ha!
+     settrack:
+         usage: /<command>
+         description: Set the location of the race track!

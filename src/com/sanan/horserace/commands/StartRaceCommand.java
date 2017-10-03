@@ -4,12 +4,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import com.sanan.horserace.util.RaceTrack;
 import com.sanan.horserace.util.chat.Message;
 import com.sanan.horserace.util.game.Game;
 
 public class StartRaceCommand implements CommandExecutor {
 
 	private Game game = Game.getInstance();
+	private RaceTrack track = RaceTrack.getInstance();
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("startrace")) {
@@ -18,7 +20,11 @@ public class StartRaceCommand implements CommandExecutor {
 				return true;
 			}
 			if (game.canStart()) {
-				game.startGame ();
+				if (track.getSpawnLocation() == null) {
+					sender.sendMessage(Message.INVALID_TRACK.getConfigMessage());
+					return true;
+				}
+				game.startTeleport();
 				sender.sendMessage(Message.GAME_START.getConfigMessage());
 				return true;
 			} else {

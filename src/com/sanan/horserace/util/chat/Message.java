@@ -5,9 +5,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public enum Message {
 
+	TELEPORT_TIMER("teleport-timer-message"),
 	NO_PERMISSION ("invalid-permissions"),
 	ALREADY_STARTED ("already-started"),
-	GAME_START ("game-start");
+	GAME_START ("game-start"),
+	INVALID_TRACK("invalid-track-location"),
+	SET_TRACK("set-track-location");
 
     private static FileConfiguration cfg;
 	private String path;
@@ -19,18 +22,6 @@ public enum Message {
     public static void setFile(FileConfiguration config) {
     	cfg = config;
     }
-	
-	public String getConfigMessageWithArgs(String[] replaceKey, String[] replaceValue) {
-		String value = getConfigMessage();
-		
-		if (replaceKey == null || replaceValue == null) return value;
-		if (replaceKey.length == 0 || replaceValue.length == 0) return value;
-		
-		for (int i=0; i < replaceKey.length; i++) {
-			value = value.replaceAll("%" + replaceKey + "%", replaceValue[i]);
-		}
-		return value;
-	}
 
 	public String getConfigMessage() {
 		String value = ChatColor.translateAlternateColorCodes('&', cfg.getString(this.path));

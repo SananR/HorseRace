@@ -1,4 +1,4 @@
-package com.sanan.horserace.util;
+package com.sanan.horserace.util.file;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
