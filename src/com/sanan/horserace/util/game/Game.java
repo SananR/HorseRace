@@ -2,25 +2,33 @@ package com.sanan.horserace.util.game;
 
 public class Game {
 
+	public static Game game;
+	
 	private static GameState currentState = GameState.STOPPED;
 	
-	public static boolean canStart() {
+	public static Game getInstance() {
+		if (game == null) { game = new Game(); }
+		return game;
+	}
+	
+	public boolean canStart() {
 		return (currentState == GameState.STOPPED);
 	}
 	
-	public static void startTeleportCooldown() {
+	public void startGame() {
+		GameThreadManager.startGameThread();
 		setCurrentGameState(GameState.TELEPORT_COUNTDOWN);
 	}
 	
-	public static void startRaceStartCooldown() {
+	public void startRaceStartCooldown() {
 		setCurrentGameState(GameState.RACESTART_COUNTDOWN);
 	}
 	
-	public static void setCurrentGameState(GameState state) {
+	public void setCurrentGameState(GameState state) {
 		currentState = state;
 	}
 	
-	public static GameState getCurrentGameState() {
+	public GameState getCurrentGameState() {
 		return currentState;
 	}
 	

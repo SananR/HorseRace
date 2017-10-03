@@ -1,0 +1,8 @@
+name: HorseRace
+version: 1.0.0
+main: com.sanan.horserace.Main
+description: HorseRace plugin for Prime MC.
+commands:
+     startrace:
+         usage: /<command>
+         description: Start the horse race! Yee ha!

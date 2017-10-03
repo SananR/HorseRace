@@ -3,20 +3,17 @@ package com.sanan.horserace.util.chat;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import com.sanan.horserace.util.ConfigUtil;
-
 public enum Message {
 
-	NO_PERMISSION ("invalid-permissions", ConfigUtil.getInvalidPermissionsMessage()),
-	ALREADY_STARTED ("game-started", ConfigUtil.getAlreadyStartedMessage()),
-	GAME_START ("game-start", ConfigUtil.getGameStartMessage());
+	NO_PERMISSION ("invalid-permissions"),
+	ALREADY_STARTED ("already-started"),
+	GAME_START ("game-start");
 
     private static FileConfiguration cfg;
-	private String key, value;
+	private String path;
 	
-	Message(String key, String value) {
-        this.key = key;
-        this.value = value;
+	Message(String path) {
+        this.path = path;
     }
 
     public static void setFile(FileConfiguration config) {
@@ -36,7 +33,7 @@ public enum Message {
 	}
 
 	public String getConfigMessage() {
-		String value = ChatColor.translateAlternateColorCodes('&', cfg.getString(this.key, this.value));
+		String value = ChatColor.translateAlternateColorCodes('&', cfg.getString(this.path));
 		return value;
 	}
 }

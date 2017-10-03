@@ -9,14 +9,16 @@ import com.sanan.horserace.util.game.Game;
 
 public class StartRaceCommand implements CommandExecutor {
 
+	private Game game = Game.getInstance();
+	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("startrace")) {
 			if (!sender.hasPermission("horserace.start")) {
 				sender.sendMessage(Message.NO_PERMISSION.getConfigMessage());
 				return true;
 			}
-			if (Game.canStart()) {
-				Game.startTeleportCooldown();
+			if (game.canStart()) {
+				game.startGame ();
 				sender.sendMessage(Message.GAME_START.getConfigMessage());
 				return true;
 			} else {
