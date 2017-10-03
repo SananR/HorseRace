@@ -1,2 +1,3 @@
-messages:
-    invalid-permissions: "&cYou do not have permission to execute this command!"
+invalid-permissions: "&cYou do not have permission to execute this command!"
+already-started: "&cThe race has already started!"
+game-start: "&eGame will start in &b10 &eseconds!"

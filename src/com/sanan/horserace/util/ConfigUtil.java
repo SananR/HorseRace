@@ -11,8 +11,14 @@ public class ConfigUtil {
 	/*
 	 * Messages
 	 */
+	public static String getGameStartMessage() {
+		return cfg.getString("game-start");
+	}
+	public static String getAlreadyStartedMessage() {
+		return cfg.getString("already-started");
+	}
 	public static String getInvalidPermissionsMessage() {
-		return cfg.getString("messages.invalid-permissions");
+		return cfg.getString("invalid-permissions");
 	}
 	
 }

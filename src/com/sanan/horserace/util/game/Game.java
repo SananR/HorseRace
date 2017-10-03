@@ -4,6 +4,10 @@ public class Game {
 
 	private static GameState currentState = GameState.STOPPED;
 	
+	public static boolean canStart() {
+		return (currentState == GameState.STOPPED);
+	}
+	
 	public static void startTeleportCooldown() {
 		setCurrentGameState(GameState.TELEPORT_COUNTDOWN);
 	}

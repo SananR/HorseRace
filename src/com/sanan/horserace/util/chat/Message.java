@@ -7,7 +7,9 @@ import com.sanan.horserace.util.ConfigUtil;
 
 public enum Message {
 
-	NO_PERMISSION ("no_permission", ConfigUtil.getInvalidPermissionsMessage());
+	NO_PERMISSION ("invalid-permissions", ConfigUtil.getInvalidPermissionsMessage()),
+	ALREADY_STARTED ("game-started", ConfigUtil.getAlreadyStartedMessage()),
+	GAME_START ("game-start", ConfigUtil.getGameStartMessage());
 
     private static FileConfiguration cfg;
 	private String key, value;
@@ -18,12 +20,11 @@ public enum Message {
     }
 
     public static void setFile(FileConfiguration config) {
-    		cfg = config;
+    	cfg = config;
     }
-
-    
-	public String getConfigMessage(String[] replaceKey, String[] replaceValue) {
-		String value = ChatColor.translateAlternateColorCodes('&', cfg.getString(this.key, this.value));
+	
+	public String getConfigMessageWithArgs(String[] replaceKey, String[] replaceValue) {
+		String value = getConfigMessage();
 		
 		if (replaceKey == null || replaceValue == null) return value;
 		if (replaceKey.length == 0 || replaceValue.length == 0) return value;
@@ -33,5 +34,9 @@ public enum Message {
 		}
 		return value;
 	}
-	
+
+	public String getConfigMessage() {
+		String value = ChatColor.translateAlternateColorCodes('&', cfg.getString(this.key, this.value));
+		return value;
+	}
 }
