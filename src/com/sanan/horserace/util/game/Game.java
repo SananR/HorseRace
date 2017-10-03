@@ -1,7 +1,5 @@
 package com.sanan.horserace.util.game;
 
-import org.bukkit.Bukkit;
-
 import com.sanan.horserace.util.player.PlayerUtil;
 
 public class Game {
@@ -30,7 +28,7 @@ public class Game {
 	
 	public void startWaitCountdown() {
 		setCurrentGameState(GameState.RACESTART_COUNTDOWN);
-		PlayerUtil.teleportAllPlayersToRace();
+		PlayerUtil.teleportAndRegisterAllPlayersToRace();
 		setCurrentTimer(5);
 		
 	}
