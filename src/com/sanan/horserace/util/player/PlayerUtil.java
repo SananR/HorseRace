@@ -4,13 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Horse.Variant;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.sanan.horserace.util.RaceTrack;
+
+import net.minecraft.server.v1_8_R3.EntityLiving;
+import net.minecraft.server.v1_8_R3.GenericAttributes;
 
 public class PlayerUtil {
 	
@@ -21,25 +28,40 @@ public class PlayerUtil {
 		return allRacePlayers;
 	}
 	
-	public static void teleportAndRegisterAllPlayersToRace() {
-		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-			player.teleport(raceTrack.getSpawnLocation());
-			saveRacePlayerInformation(player);
+	public static void spawnPlayerHorse(Player player) { 
+		for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
+			if (rp.getPlayer().getUniqueId().equals(player.getUniqueId())) {
+				Entity entityHorse = player.getWorld().spawnEntity(player.getLocation(), EntityType.HORSE);
+				Horse horse = (Horse)entityHorse;
+				horse.setTamed(true);
+				horse.setAdult();
+				horse.setVariant(Variant.HORSE);
+				horse.getInventory().addItem(new ItemStack(Material.SADDLE));
+				horse.setJumpStrength(1);
+				((EntityLiving)((CraftEntity)horse).getHandle()).getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.2);
+				horse.setPassenger(player);
+				rp.setHorse(horse);
+			}
 		}
 	}
 	
-	private static void saveRacePlayerInformation(Player player) {
-		Entity horse = player.getWorld().spawnEntity(player.getLocation(), EntityType.HORSE);
-		((EntityLiving)((CraftEntity)horse).getHandle()).getAttributeInstance(GenericAttributes.d).setValue(5);
+	public static void teleportAndRegisterAllPlayersToRace() {
+		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+			player.teleport(raceTrack.getSpawnLocation());
+			setupRacePlayer(player);
+		}
+	}
+	
+	private static void setupRacePlayer(Player player) {
 		Inventory inv = player.getInventory();
 		ItemStack[] contents = new ItemStack[inv.getSize()];
 		for (int i=0; i < contents.length; i++) {
 			contents[i] = inv.getItem(i);
 		}
-		RacePlayer rp = new RacePlayer(player, contents, horse);
+		RacePlayer rp = new RacePlayer(player, contents, null);
 		registerRacePlayer(rp);
 	}
-
+	
 	
 	private static void registerRacePlayer(RacePlayer rp) {
 		allRacePlayers.add(rp);

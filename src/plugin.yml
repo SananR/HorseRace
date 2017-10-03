@@ -9,3 +9,6 @@ commands:
      settrack:
          usage: /<command>
          description: Set the location of the race track!
+     setportal:
+         usage: /<command>
+         description: Set the location of the race portal!

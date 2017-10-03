@@ -9,11 +9,13 @@ public class RacePlayer {
 	private Player player;
 	private ItemStack[] inventoryContents;
 	private Entity horse;
+	private int currentLap;
 	
 	public RacePlayer(Player player, ItemStack[] inventoryContents, Entity horse) {
 		this.player = player;
 		this.inventoryContents = inventoryContents;
 		this.horse = horse;
+		this.currentLap = 1;
 	}
 	
 	public Player getPlayer() {
@@ -25,6 +27,10 @@ public class RacePlayer {
 	public Entity getHorse() {
 		return horse;
 	}
+	public int getCurrentLap() {
+		return currentLap;
+	}
+	
 	
 	public void setPlayer(Player player) {
 		this.player = player;
@@ -34,5 +40,8 @@ public class RacePlayer {
 	}
 	public void setHorse(Entity horse) {
 		this.horse = horse;
+	}
+	public void setCurrentLap(int currentLap) {
+		this.currentLap = currentLap;
 	}
 }

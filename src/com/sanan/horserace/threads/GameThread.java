@@ -13,7 +13,7 @@ public class GameThread extends BukkitRunnable {
 	private Game game = Game.getInstance();
 	
 	public void run() {
-		
+	
 		if (game.getCurrentGameState() == GameState.STOPPED) {
 			GameThreadManager.stopGameThread();
 		}

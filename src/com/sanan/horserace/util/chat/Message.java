@@ -12,7 +12,8 @@ public enum Message {
 	ALREADY_STARTED ("already-started"),
 	GAME_START ("game-start"),
 	INVALID_TRACK("invalid-track-location"),
-	SET_TRACK("set-track-location");
+	SET_TRACK("set-track-location"),
+	SET_PORTAL("set-portal-location");
 
     private static FileConfiguration cfg;
 	private String path;

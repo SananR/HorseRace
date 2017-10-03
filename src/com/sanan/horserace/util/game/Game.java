@@ -1,6 +1,9 @@
 package com.sanan.horserace.util.game;
 
+import org.bukkit.entity.Player;
+
 import com.sanan.horserace.util.player.PlayerUtil;
+import com.sanan.horserace.util.player.RacePlayer;
 
 public class Game {
 
@@ -24,6 +27,10 @@ public class Game {
 	
 	public void startRace() {
 		setCurrentGameState(GameState.RACING);
+		for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
+			Player player = rp.getPlayer();
+			PlayerUtil.spawnPlayerHorse(player);
+		}
 	}
 	
 	public void startWaitCountdown() {
