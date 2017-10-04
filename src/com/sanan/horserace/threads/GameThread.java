@@ -57,11 +57,9 @@ public class GameThread extends BukkitRunnable {
 			int currentTimer = game.getTimer();
 
 			for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
-				Bukkit.getServer().broadcastMessage("updated scoreboard");
 				PlayerUtil.updateScoreboard(rp.getPlayer());
 			}
-			
-			
+	
 			if (game.getFinishedPlayers() == 0) return;
 			
 			if (currentTimer > 0) {

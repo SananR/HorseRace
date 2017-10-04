@@ -41,7 +41,7 @@ public class PlayerUtil {
 
 	public static void updateScoreboard(Player player) {
 		for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
-			board.getObjective(DisplaySlot.SIDEBAR).getScore(ChatColor.AQUA + "" + ChatColor.BOLD + "").setScore(rp.getDistanceTraveled());
+			board.getObjective(DisplaySlot.SIDEBAR).getScore(player.getName()).setScore(rp.getDistanceTraveled());
 		}
 		player.setScoreboard(board);
 	}
@@ -52,9 +52,9 @@ public class PlayerUtil {
 
 	public static void registerPlayerToScoreboard(Player player) {
         Team playerName = board.registerNewTeam("testing");
-        playerName.addEntry(ChatColor.AQUA + "" + ChatColor.BOLD + "");
-        playerName.setPrefix(ChatColor.AQUA + player.getName());
-        board.getObjective(DisplaySlot.SIDEBAR).getScore(ChatColor.AQUA + "" + ChatColor.BOLD + "").setScore(0);
+        playerName.addEntry(player.getName());
+        playerName.setPrefix(ChatColor.AQUA + "");
+        board.getObjective(DisplaySlot.SIDEBAR).getScore(player.getName()).setScore(0);
 	}
 	
 	public static void setupScoreboard() {
