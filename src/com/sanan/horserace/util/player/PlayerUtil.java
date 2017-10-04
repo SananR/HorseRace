@@ -1,6 +1,6 @@
 package com.sanan.horserace.util.player;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -14,6 +14,7 @@ import org.bukkit.entity.Horse.Variant;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.sanan.horserace.Main;
 import com.sanan.horserace.util.RaceTrack;
 
 import net.minecraft.server.v1_8_R3.EntityLiving;
@@ -28,6 +29,23 @@ public class PlayerUtil {
 		return allRacePlayers;
 	}
 	
+	public static void finishPlayerLap(final Player player) {
+		for (final RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
+			if (rp.getPlayer().getUniqueId().equals(player.getUniqueId())) {
+				rp.getHorse().remove();
+				player.teleport(raceTrack.getSpawnLocation());
+				rp.setCurrentLap(rp.getCurrentLap() + 1);
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.plugin, new Runnable() {
+					public void run() {
+						spawnPlayerHorse(player);
+						rp.getHorse().setPassenger(player);
+					}
+					
+				}, 5);
+			}
+		}
+	}
+	
 	public static void spawnPlayerHorse(Player player) { 
 		for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
 			if (rp.getPlayer().getUniqueId().equals(player.getUniqueId())) {
@@ -38,7 +56,7 @@ public class PlayerUtil {
 				horse.setVariant(Variant.HORSE);
 				horse.getInventory().addItem(new ItemStack(Material.SADDLE));
 				horse.setJumpStrength(1);
-				((EntityLiving)((CraftEntity)horse).getHandle()).getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.2);
+				((EntityLiving)((CraftEntity)horse).getHandle()).getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.4);
 				horse.setPassenger(player);
 				rp.setHorse(horse);
 			}

@@ -20,7 +20,7 @@ public class StartRaceCommand implements CommandExecutor {
 				return true;
 			}
 			if (game.canStart()) {
-				if (track.getSpawnLocation() == null) {
+				if (track.getSpawnLocation() == null || track.getPortalLocation() == null) {
 					sender.sendMessage(Message.INVALID_TRACK.getConfigMessage());
 					return true;
 				}

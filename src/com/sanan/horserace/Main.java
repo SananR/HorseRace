@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.sanan.horserace.commands.SetPortalCommand;
 import com.sanan.horserace.commands.SetTrackCommand;
 import com.sanan.horserace.commands.StartRaceCommand;
+import com.sanan.horserace.listeners.PortalEvents;
 import com.sanan.horserace.listeners.RaceEvents;
 import com.sanan.horserace.util.RaceTrack;
 import com.sanan.horserace.util.chat.Message;
@@ -37,6 +38,7 @@ public class Main extends JavaPlugin {
 	
 	private void setupListeners() {
 		getServer().getPluginManager().registerEvents(new RaceEvents(), this);
+		getServer().getPluginManager().registerEvents(new PortalEvents(), this);
 	}
 	
 	private void setupCommands() {
