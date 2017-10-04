@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.sanan.horserace.util.RaceTrack;
+import com.sanan.horserace.util.chat.Message;
 import com.sanan.horserace.util.game.Game;
 import com.sanan.horserace.util.game.GameState;
 import com.sanan.horserace.util.player.PlayerUtil;
@@ -26,7 +27,9 @@ public class PortalEvents implements Listener {
 					if (rp.getPlayer().getUniqueId().equals(player.getUniqueId())) {
 						event.setCancelled(true);
 						PlayerUtil.finishPlayerLap(player);
-						//TODO Message
+						for (String message : Message.RACE_LAP.getConfigMessageList()) {
+							player.sendMessage(message.replaceAll("%current%", Integer.toString(rp.getCurrentLap())));
+						}
 					}
 				}		
 			}

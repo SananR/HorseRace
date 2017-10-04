@@ -16,6 +16,8 @@ import org.bukkit.inventory.ItemStack;
 
 import com.sanan.horserace.Main;
 import com.sanan.horserace.util.RaceTrack;
+import com.sanan.horserace.util.chat.Message;
+import com.sanan.horserace.util.game.Game;
 
 import net.minecraft.server.v1_8_R3.EntityLiving;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
@@ -23,6 +25,7 @@ import net.minecraft.server.v1_8_R3.GenericAttributes;
 public class PlayerUtil {
 	
 	private static List<RacePlayer> allRacePlayers = new ArrayList<RacePlayer>();
+	private static Game game = Game.getInstance();
 	private static RaceTrack raceTrack = RaceTrack.getInstance();
 	
 	public static List<RacePlayer> getAllRacePlayers() {
@@ -30,8 +33,18 @@ public class PlayerUtil {
 	}
 	
 	public static void finishPlayerLap(final Player player) {
+		if (game.getTimer() <= 0) {
+			game.setCurrentTimer(60);
+			for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
+				rp.getPlayer().sendMessage(Message.FIRST_FINISH.getConfigMessage().replaceAll("%player%", player.getName()));
+			}
+		}
 		for (final RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
 			if (rp.getPlayer().getUniqueId().equals(player.getUniqueId())) {
+				if (rp.getCurrentLap() >= 3) {
+					returnAndUnregisterPlayerFromRace(player);
+					return;
+				}
 				rp.getHorse().remove();
 				player.teleport(raceTrack.getSpawnLocation());
 				rp.setCurrentLap(rp.getCurrentLap() + 1);
@@ -40,7 +53,6 @@ public class PlayerUtil {
 						spawnPlayerHorse(player);
 						rp.getHorse().setPassenger(player);
 					}
-					
 				}, 5);
 			}
 		}
@@ -63,10 +75,22 @@ public class PlayerUtil {
 		}
 	}
 	
+	public static void returnAndUnregisterPlayerFromRace(Player player) {
+		for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
+			if (rp.getPlayer().getUniqueId().equals(player.getUniqueId())) {
+				rp.getHorse().remove();
+				player.teleport(rp.getOriginalLocation());
+				for (int i=0; i<rp.getInventoryContents().length; i++) {
+					player.getInventory().setItem(i, rp.getInventoryContents()[i]);
+				}
+			}
+		}
+	}
+	
 	public static void teleportAndRegisterAllPlayersToRace() {
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-			player.teleport(raceTrack.getSpawnLocation());
 			setupRacePlayer(player);
+			player.teleport(raceTrack.getSpawnLocation());
 		}
 	}
 	
@@ -76,8 +100,9 @@ public class PlayerUtil {
 		for (int i=0; i < contents.length; i++) {
 			contents[i] = inv.getItem(i);
 		}
-		RacePlayer rp = new RacePlayer(player, contents, null);
+		RacePlayer rp = new RacePlayer(player, contents, player.getLocation(), null);
 		registerRacePlayer(rp);
+		inv.clear();
 	}
 	
 	
