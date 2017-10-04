@@ -33,12 +33,6 @@ public class PlayerUtil {
 	}
 	
 	public static void finishPlayerLap(final Player player) {
-		if (game.getTimer() <= 0) {
-			game.setCurrentTimer(60);
-			for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
-				rp.getPlayer().sendMessage(Message.FIRST_FINISH.getConfigMessage().replaceAll("%player%", player.getName()));
-			}
-		}
 		for (final RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
 			if (rp.getPlayer().getUniqueId().equals(player.getUniqueId())) {
 				if (rp.getCurrentLap() >= 3) {
@@ -75,16 +69,36 @@ public class PlayerUtil {
 		}
 	}
 	
-	public static void returnAndUnregisterPlayerFromRace(Player player) {
-		for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
-			if (rp.getPlayer().getUniqueId().equals(player.getUniqueId())) {
-				rp.getHorse().remove();
-				player.teleport(rp.getOriginalLocation());
-				for (int i=0; i<rp.getInventoryContents().length; i++) {
-					player.getInventory().setItem(i, rp.getInventoryContents()[i]);
-				}
+	public static void returnAndUnregisterPlayerFromRace(final Player player) {
+		game.setFinishedPlayers(game.getFinishedPlayers() + 1);
+		
+		if (game.getFinishedPlayers() == 1) {
+			game.setCurrentTimer(60);
+			for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
+				rp.getPlayer().sendMessage(Message.FIRST_FINISH.getConfigMessage().replaceAll("%player%", player.getName()));
 			}
 		}
+		else if (game.getFinishedPlayers() == PlayerUtil.getAllRacePlayers().size()) {
+			game.stopRace();
+		}
+		for (final RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
+			if (rp.getPlayer().getUniqueId().equals(player.getUniqueId())) {
+				rp.getHorse().remove();
+				rp.setHasFinished(true);
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.plugin, new Runnable() {
+					public void run() {
+						player.teleport(rp.getOriginalLocation());
+						for (int i=0; i<rp.getInventoryContents().length; i++) {
+							player.getInventory().setItem(i, rp.getInventoryContents()[i]);
+						}
+					}
+				}, 5);
+			}
+		}
+	}
+
+	public static void unregisterPlayer(RacePlayer rp) {
+		allRacePlayers.remove(rp);
 	}
 	
 	public static void teleportAndRegisterAllPlayersToRace() {
@@ -109,10 +123,5 @@ public class PlayerUtil {
 	private static void registerRacePlayer(RacePlayer rp) {
 		allRacePlayers.add(rp);
 	}
-
-	private static void unregisterPlayer(RacePlayer rp) {
-		allRacePlayers.remove(rp);
-	}
-	
 	
 }

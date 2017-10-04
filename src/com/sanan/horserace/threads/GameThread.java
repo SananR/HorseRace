@@ -39,8 +39,7 @@ public class GameThread extends BukkitRunnable {
 
 			if (currentTimer > 0) {
 				game.setCurrentTimer(currentTimer - 1);
-				Bukkit.getServer().broadcastMessage(
-						Message.WAITING_TIMER.getConfigMessage().replaceAll("%timer%", Integer.toString(currentTimer)));
+				Bukkit.getServer().broadcastMessage(Message.WAITING_TIMER.getConfigMessage().replaceAll("%timer%", Integer.toString(currentTimer)));
 				return;
 			} else {
 				game.startRace();
@@ -55,7 +54,25 @@ public class GameThread extends BukkitRunnable {
 		}
 
 		else if (game.getCurrentGameState() == GameState.RACING) {
+			int currentTimer = game.getTimer();
 			
+			if (game.getFinishedPlayers() == 0) return;
+
+			if (currentTimer > 0) {
+				game.setCurrentTimer(currentTimer - 1);
+				if (currentTimer == 30 || currentTimer == 15 || currentTimer == 10 || currentTimer <= 5) {
+					for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
+						rp.getPlayer().sendMessage(Message.TIME_LIMIT.getConfigMessage().replaceAll("%time%",Integer.toString(currentTimer)));
+					}
+				}
+			} else {
+				for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
+					if (!rp.getHasFinished()) {
+						PlayerUtil.returnAndUnregisterPlayerFromRace(rp.getPlayer());
+					}
+				}
+			}
+
 		}
 
 	}

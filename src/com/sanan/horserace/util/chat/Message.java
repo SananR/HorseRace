@@ -18,7 +18,9 @@ public enum Message {
 	SET_TRACK("set-track-location"),
 	SET_PORTAL("set-portal-location"),
 	FIRST_FINISH("first-player-finish"),
-	RACE_LAP("race-lap-message");
+	RACE_LAP("race-lap-message"),
+	TIME_LIMIT("time-limit"),
+	GAME_OVER("game-over");
 
     private static FileConfiguration cfg;
 	private String path;
