@@ -20,18 +20,21 @@ public class PortalEvents implements Listener {
 	@EventHandler
 	public void onRacePortal(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
-		if (event.getTo().distance(event.getFrom()) > 10) return;
 		if (game.getCurrentGameState() == GameState.RACING) {
-			if (event.getTo().distance(track.getPortalLocation()) <= 3) {
-				for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
+			if (event.getTo().distance(track.getPortalLocation()) <= 2) {
+
+				for (int i=0; i < PlayerUtil.getAllRacePlayers().size(); i++) {
+					RacePlayer rp = PlayerUtil.getAllRacePlayers().get(i);
 					if (rp.getPlayer().getUniqueId().equals(player.getUniqueId())) {
 						event.setCancelled(true);
-						PlayerUtil.finishPlayerLap(player);
 						for (String message : Message.RACE_LAP.getConfigMessageList()) {
 							player.sendMessage(message.replaceAll("%current%", Integer.toString(rp.getCurrentLap())));
 						}
+						PlayerUtil.finishPlayerLap(player);
+						return;
 					}
 				}		
+				
 			}
 		}
 	}

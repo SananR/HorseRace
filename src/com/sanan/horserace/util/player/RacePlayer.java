@@ -12,6 +12,7 @@ public class RacePlayer {
 	private Location originalLocation;
 	private Entity horse;
 	private int currentLap;
+	private int distanceTraveled;
 	private boolean hasFinished;
 	
 	public RacePlayer(Player player, ItemStack[] inventoryContents, Location originalLocation, Entity horse) {
@@ -21,6 +22,7 @@ public class RacePlayer {
 		this.horse = horse;
 		this.hasFinished = false;
 		this.currentLap = 1;
+		this.distanceTraveled = 0;
 	}
 	
 	public Player getPlayer() {
@@ -41,7 +43,10 @@ public class RacePlayer {
 	public boolean getHasFinished() {
 		return this.hasFinished;
 	}
-
+	public int getDistanceTraveled() {
+		return distanceTraveled;
+	}
+	
 	
 	
 	public void setPlayer(Player player) {
@@ -61,5 +66,8 @@ public class RacePlayer {
 	}
 	public void setHasFinished(boolean hasFinished) {
 		this.hasFinished = hasFinished;
+	}
+	public void setDistanceTraveled(int distanceTraveled) {
+		this.distanceTraveled = distanceTraveled;
 	}
 }

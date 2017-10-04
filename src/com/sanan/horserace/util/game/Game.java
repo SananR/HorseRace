@@ -33,7 +33,9 @@ public class Game {
 	
 	public void stopRace() {
 		GameThreadManager.stopGameThread();
-		for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
+		PlayerUtil.resetScoreboard();
+		for (int i=0; i < PlayerUtil.getAllRacePlayers().size(); i++) {
+			RacePlayer rp = PlayerUtil.getAllRacePlayers().get(i);
 			rp.getPlayer().sendMessage(Message.GAME_OVER.getConfigMessage());
 			PlayerUtil.unregisterPlayer(rp);
 		}

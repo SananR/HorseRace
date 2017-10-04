@@ -1,5 +1,6 @@
 package com.sanan.horserace.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
@@ -59,6 +60,19 @@ public class RaceEvents implements Listener {
 			for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
 				if (rp.getPlayer().getUniqueId().equals(player.getUniqueId())) {
 					event.setTo(event.getFrom());
+				}
+			}	
+		}
+	}
+	
+	@EventHandler
+	public void onRaceDistanceUpdate(PlayerMoveEvent event) {
+		if (!(game.getCurrentGameState() == GameState.RACING)) return;
+		if (event.getTo().getX() != event.getFrom().getX() || event.getTo().getY() != event.getFrom().getY() || event.getTo().getZ() != event.getFrom().getZ()) {
+			Player player = event.getPlayer();
+			for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
+				if (rp.getPlayer().getUniqueId().equals(player.getUniqueId())) {
+					rp.setDistanceTraveled(rp.getDistanceTraveled() + 1);
 				}
 			}	
 		}
