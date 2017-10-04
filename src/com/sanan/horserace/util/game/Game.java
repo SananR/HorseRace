@@ -2,6 +2,7 @@ package com.sanan.horserace.util.game;
 
 import org.bukkit.entity.Player;
 
+import com.sanan.horserace.util.ScoreboardUtil;
 import com.sanan.horserace.util.chat.Message;
 import com.sanan.horserace.util.player.PlayerUtil;
 import com.sanan.horserace.util.player.RacePlayer;
@@ -33,7 +34,7 @@ public class Game {
 	
 	public void stopRace() {
 		GameThreadManager.stopGameThread();
-		PlayerUtil.resetScoreboard();
+		ScoreboardUtil.resetScoreboard();
 		for (int i=0; i < PlayerUtil.getAllRacePlayers().size(); i++) {
 			RacePlayer rp = PlayerUtil.getAllRacePlayers().get(i);
 			rp.getPlayer().sendMessage(Message.GAME_OVER.getConfigMessage());

@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.sanan.horserace.util.RaceTrack;
+import com.sanan.horserace.util.ScoreboardUtil;
 import com.sanan.horserace.util.chat.Message;
 import com.sanan.horserace.util.game.Game;
 import com.sanan.horserace.util.player.PlayerUtil;
@@ -25,7 +26,7 @@ public class StartRaceCommand implements CommandExecutor {
 					sender.sendMessage(Message.INVALID_TRACK.getConfigMessage());
 					return true;
 				}
-				PlayerUtil.setupScoreboard();
+				ScoreboardUtil.setupScoreboard();
 				game.startTeleport();
 				sender.sendMessage(Message.GAME_START.getConfigMessage());
 				return true;

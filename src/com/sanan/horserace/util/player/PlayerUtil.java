@@ -22,6 +22,7 @@ import org.bukkit.scoreboard.Team;
 
 import com.sanan.horserace.Main;
 import com.sanan.horserace.util.RaceTrack;
+import com.sanan.horserace.util.ScoreboardUtil;
 import com.sanan.horserace.util.chat.Message;
 import com.sanan.horserace.util.game.Game;
 
@@ -33,35 +34,9 @@ public class PlayerUtil {
 	private static List<RacePlayer> allRacePlayers = new ArrayList<RacePlayer>();
 	private static Game game = Game.getInstance();
 	private static RaceTrack raceTrack = RaceTrack.getInstance();
-	private static Scoreboard board;
 
 	public static List<RacePlayer> getAllRacePlayers() {
 		return allRacePlayers;
-	}
-
-	public static void updateScoreboard(Player player) {
-		for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
-			board.getObjective(DisplaySlot.SIDEBAR).getScore(player.getName()).setScore(rp.getDistanceTraveled());
-		}
-		player.setScoreboard(board);
-	}
-	
-	public static void resetScoreboard() {
-		board = null;
-	}
-
-	public static void registerPlayerToScoreboard(Player player) {
-        Team playerName = board.registerNewTeam("testing");
-        playerName.addEntry(player.getName());
-        playerName.setPrefix(ChatColor.AQUA + "");
-        board.getObjective(DisplaySlot.SIDEBAR).getScore(player.getName()).setScore(0);
-	}
-	
-	public static void setupScoreboard() {
-		board = Bukkit.getScoreboardManager().getNewScoreboard();
-		Objective obj = board.registerNewObjective("HorseRace", "dummy");
-		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-		obj.setDisplayName("Distance");
 	}
 
 	public static void finishPlayerLap(final Player player) {
@@ -140,8 +115,8 @@ public class PlayerUtil {
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 			setupRacePlayer(player);
 			player.teleport(raceTrack.getSpawnLocation());
-			registerPlayerToScoreboard(player);
-			updateScoreboard(player);
+			ScoreboardUtil.registerPlayerToScoreboard(player);
+			ScoreboardUtil.updateScoreboard(player);
 		}
 	}
 

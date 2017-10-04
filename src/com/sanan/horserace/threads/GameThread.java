@@ -3,6 +3,7 @@ package com.sanan.horserace.threads;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.sanan.horserace.util.ScoreboardUtil;
 import com.sanan.horserace.util.chat.Message;
 import com.sanan.horserace.util.game.Game;
 import com.sanan.horserace.util.game.GameState;
@@ -57,7 +58,7 @@ public class GameThread extends BukkitRunnable {
 			int currentTimer = game.getTimer();
 
 			for (RacePlayer rp : PlayerUtil.getAllRacePlayers()) {
-				PlayerUtil.updateScoreboard(rp.getPlayer());
+				ScoreboardUtil.updateScoreboard(rp.getPlayer());
 			}
 	
 			if (game.getFinishedPlayers() == 0) return;
